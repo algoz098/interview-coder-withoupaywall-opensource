@@ -38,43 +38,63 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to analyze screenshots and extract problem details',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model with vision support"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Best overall performance for problem extraction"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
     geminiModels: [
       {
-        id: "gemini-1.5-pro",
-        name: "Gemini 1.5 Pro",
-        description: "Best overall performance for problem extraction"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Advanced intelligence and problem-solving skills"
       },
       {
-        id: "gemini-2.0-flash",
-        name: "Gemini 2.0 Flash",
-        description: "Faster, more cost-effective option"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for problem extraction"
+      },
+      {
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Fast, cost-sensitive workhorse model"
       }
     ],
     anthropicModels: [
       {
-        id: "claude-3-7-sonnet-20250219",
-        name: "Claude 3.7 Sonnet",
-        description: "Best overall performance for problem extraction"
+        id: "claude-fable-5",
+        name: "Claude 5 Fable",
+        description: "Highest available capability for problem extraction"
       },
       {
-        id: "claude-3-5-sonnet-20241022",
-        name: "Claude 3.5 Sonnet",
-        description: "Balanced performance and speed"
+        id: "claude-opus-5",
+        name: "Claude 5 Opus",
+        description: "Top-level intelligence and complex analysis"
       },
       {
-        id: "claude-3-opus-20240229",
-        name: "Claude 3 Opus",
-        description: "Top-level intelligence, fluency, and understanding"
+        id: "claude-sonnet-5",
+        name: "Claude 5 Sonnet",
+        description: "Best combination of speed and intelligence"
+      },
+      {
+        id: "claude-haiku-4-5-20251001",
+        name: "Claude 4.5 Haiku",
+        description: "Fastest model with near-frontier intelligence"
       }
     ]
   },
@@ -84,43 +104,68 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to generate coding solutions',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model"
+      },
+      {
+        id: "o3-mini",
+        name: "o3-mini",
+        description: "Fast and capable reasoning model"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Strong overall performance for coding tasks"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
     geminiModels: [
       {
-        id: "gemini-1.5-pro",
-        name: "Gemini 1.5 Pro",
-        description: "Strong overall performance for coding tasks"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Powerful agentic and vibe coding capabilities"
       },
       {
-        id: "gemini-2.0-flash",
-        name: "Gemini 2.0 Flash",
-        description: "Faster, more cost-effective option"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for generating solutions"
+      },
+      {
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Cost-sensitive workhorse model for coding"
       }
     ],
     anthropicModels: [
       {
-        id: "claude-3-7-sonnet-20250219",
-        name: "Claude 3.7 Sonnet",
-        description: "Strong overall performance for coding tasks"
+        id: "claude-fable-5",
+        name: "Claude 5 Fable",
+        description: "Highest available capability for generating solutions"
       },
       {
-        id: "claude-3-5-sonnet-20241022",
-        name: "Claude 3.5 Sonnet",
-        description: "Balanced performance and speed"
+        id: "claude-opus-5",
+        name: "Claude 5 Opus",
+        description: "Best for complex agentic coding and enterprise work"
       },
       {
-        id: "claude-3-opus-20240229",
-        name: "Claude 3 Opus",
-        description: "Top-level intelligence, fluency, and understanding"
+        id: "claude-sonnet-5",
+        name: "Claude 5 Sonnet",
+        description: "Best combination of speed and intelligence for coding"
+      },
+      {
+        id: "claude-haiku-4-5-20251001",
+        name: "Claude 4.5 Haiku",
+        description: "Fastest model for coding tasks"
       }
     ]
   },
@@ -130,43 +175,63 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to debug and improve solutions',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model with vision support"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Best for analyzing code and error messages"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
     geminiModels: [
       {
-        id: "gemini-1.5-pro",
-        name: "Gemini 1.5 Pro",
-        description: "Best for analyzing code and error messages"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Advanced intelligence for complex debugging"
       },
       {
-        id: "gemini-2.0-flash",
-        name: "Gemini 2.0 Flash",
-        description: "Faster, more cost-effective option"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for analyzing code"
+      },
+      {
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Cost-sensitive workhorse model for debugging"
       }
     ],
     anthropicModels: [
       {
-        id: "claude-3-7-sonnet-20250219",
-        name: "Claude 3.7 Sonnet",
+        id: "claude-fable-5",
+        name: "Claude 5 Fable",
+        description: "Highest available capability for debugging"
+      },
+      {
+        id: "claude-opus-5",
+        name: "Claude 5 Opus",
+        description: "Top-level intelligence for complex debugging"
+      },
+      {
+        id: "claude-sonnet-5",
+        name: "Claude 5 Sonnet",
         description: "Best for analyzing code and error messages"
       },
       {
-        id: "claude-3-5-sonnet-20241022",
-        name: "Claude 3.5 Sonnet",
-        description: "Balanced performance and speed"
-      },
-      {
-        id: "claude-3-opus-20240229",
-        name: "Claude 3 Opus",
-        description: "Top-level intelligence, fluency, and understanding"
+        id: "claude-haiku-4-5-20251001",
+        name: "Claude 4.5 Haiku",
+        description: "Fastest model for debugging"
       }
     ]
   }
@@ -244,13 +309,13 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
       setSolutionModel("gpt-4o");
       setDebuggingModel("gpt-4o");
     } else if (provider === "gemini") {
-      setExtractionModel("gemini-1.5-pro");
-      setSolutionModel("gemini-1.5-pro");
-      setDebuggingModel("gemini-1.5-pro");
+      setExtractionModel("gemini-3.7-flash");
+      setSolutionModel("gemini-3.7-flash");
+      setDebuggingModel("gemini-3.7-flash");
     } else if (provider === "anthropic") {
-      setExtractionModel("claude-3-7-sonnet-20250219");
-      setSolutionModel("claude-3-7-sonnet-20250219");
-      setDebuggingModel("claude-3-7-sonnet-20250219");
+      setExtractionModel("claude-sonnet-5");
+      setSolutionModel("claude-sonnet-5");
+      setDebuggingModel("claude-sonnet-5");
     }
   };
 
@@ -362,7 +427,7 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
                   />
                   <div className="flex flex-col">
                     <p className="font-medium text-white text-sm">Gemini</p>
-                    <p className="text-xs text-white/60">Gemini 1.5 models</p>
+                    <p className="text-xs text-white/60">Gemini 3 models</p>
                   </div>
                 </div>
               </div>
@@ -382,7 +447,7 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
                   />
                   <div className="flex flex-col">
                     <p className="font-medium text-white text-sm">Claude</p>
-                    <p className="text-xs text-white/60">Claude 3 models</p>
+                    <p className="text-xs text-white/60">Claude 5 models</p>
                   </div>
                 </div>
               </div>

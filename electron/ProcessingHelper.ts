@@ -495,12 +495,32 @@ export class ProcessingHelper {
         ];
 
         // Send to OpenAI Vision API
-        const extractionResponse = await this.openaiClient.chat.completions.create({
-          model: config.extractionModel || "gpt-4o",
-          messages: messages,
-          max_tokens: 4000,
-          temperature: 0.2
-        });
+        const modelName = config.extractionModel || "gpt-4o";
+        const isO1 = modelName.startsWith("o1") || modelName.startsWith("o3");
+
+        // Handle o-series models constraints
+        let finalMessages: any[] = messages;
+        if (isO1) {
+          finalMessages = messages.map(msg => ({
+            ...msg,
+            role: msg.role === 'system' ? 'user' : msg.role
+          }));
+        }
+
+        const payload: any = {
+          model: modelName,
+          messages: finalMessages,
+        };
+
+        if (isO1) {
+          // o-series models typically use max_completion_tokens
+          payload.max_completion_tokens = 4000;
+        } else {
+          payload.max_tokens = 4000;
+          payload.temperature = 0.2;
+        }
+
+        const extractionResponse = await this.openaiClient.chat.completions.create(payload);
 
         // Parse the response
         try {
@@ -774,15 +794,31 @@ Your solution should be efficient, well-commented, and handle edge cases.
         }
         
         // Send to OpenAI API
-        const solutionResponse = await this.openaiClient.chat.completions.create({
-          model: config.solutionModel || "gpt-4o",
-          messages: [
-            { role: "system", content: "You are an expert coding interview assistant. Provide clear, optimal solutions with detailed explanations." },
-            { role: "user", content: promptText }
-          ],
-          max_tokens: 4000,
-          temperature: 0.2
-        });
+        const modelName = config.solutionModel || "gpt-4o";
+        const isO1 = modelName.startsWith("o1") || modelName.startsWith("o3");
+
+        const messages: any[] = [
+          { role: "system", content: "You are an expert coding interview assistant. Provide clear, optimal solutions with detailed explanations." },
+          { role: "user", content: promptText }
+        ];
+
+        if (isO1) {
+          messages[0].role = "user"; // o1 models don't support system role
+        }
+
+        const payload: any = {
+          model: modelName,
+          messages: messages,
+        };
+
+        if (isO1) {
+          payload.max_completion_tokens = 4000;
+        } else {
+          payload.max_tokens = 4000;
+          payload.temperature = 0.2;
+        }
+
+        const solutionResponse = await this.openaiClient.chat.completions.create(payload);
 
         responseContent = solutionResponse.choices[0].message.content;
       } else if (config.apiProvider === "gemini")  {
@@ -1066,12 +1102,30 @@ If you include code examples, use proper markdown code blocks with language spec
           });
         }
 
-        const debugResponse = await this.openaiClient.chat.completions.create({
-          model: config.debuggingModel || "gpt-4o",
-          messages: messages,
-          max_tokens: 4000,
-          temperature: 0.2
-        });
+        const modelName = config.debuggingModel || "gpt-4o";
+        const isO1 = modelName.startsWith("o1") || modelName.startsWith("o3");
+
+        let finalMessages: any[] = messages;
+        if (isO1) {
+          finalMessages = messages.map(msg => ({
+            ...msg,
+            role: msg.role === 'system' ? 'user' : msg.role
+          }));
+        }
+
+        const payload: any = {
+          model: modelName,
+          messages: finalMessages,
+        };
+
+        if (isO1) {
+          payload.max_completion_tokens = 4000;
+        } else {
+          payload.max_tokens = 4000;
+          payload.temperature = 0.2;
+        }
+
+        const debugResponse = await this.openaiClient.chat.completions.create(payload);
         
         debugContent = debugResponse.choices[0].message.content;
       } else if (config.apiProvider === "gemini")  {
