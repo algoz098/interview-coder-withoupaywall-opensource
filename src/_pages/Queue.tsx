@@ -47,7 +47,7 @@ const Queue: React.FC<QueueProps> = ({
     refetchOnWindowFocus: false
   })
 
-  const handleDeleteScreenshot = async (index: number) => {
+  const handleDeleteScreenshot = React.useCallback(async (index: number) => {
     const screenshotToDelete = screenshots[index]
 
     try {
@@ -64,7 +64,7 @@ const Queue: React.FC<QueueProps> = ({
     } catch (error) {
       console.error("Error deleting screenshot:", error)
     }
-  }
+  }, [screenshots, showToast, refetch])
 
   useEffect(() => {
     // Height update logic
@@ -125,7 +125,7 @@ const Queue: React.FC<QueueProps> = ({
       resizeObserver.disconnect()
       cleanupFunctions.forEach((cleanup) => cleanup())
     }
-  }, [isTooltipVisible, tooltipHeight, screenshots])
+  }, [isTooltipVisible, tooltipHeight, screenshots, handleDeleteScreenshot, refetch, setView, showToast])
 
   const handleTooltipVisibilityChange = (visible: boolean, height: number) => {
     setIsTooltipVisible(visible)

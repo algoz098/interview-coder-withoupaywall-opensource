@@ -42,7 +42,7 @@ const SubscribedApp: React.FC<SubscribedAppProps> = ({
     return () => {
       cleanup()
     }
-  }, [])
+  }, [queryClient])
 
   // Dynamically update the window size
   useEffect(() => {
@@ -132,7 +132,7 @@ const SubscribedApp: React.FC<SubscribedAppProps> = ({
       })
     ]
     return () => cleanupFunctions.forEach((fn) => fn())
-  }, [view])
+  }, [view, queryClient, showToast])
 
   return (
     <div ref={containerRef} className="min-h-0">

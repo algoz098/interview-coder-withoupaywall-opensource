@@ -397,7 +397,7 @@ const Solutions: React.FC<SolutionsProps> = ({
       resizeObserver.disconnect()
       cleanupFunctions.forEach((cleanup) => cleanup())
     }
-  }, [isTooltipVisible, tooltipHeight])
+  }, [isTooltipVisible, tooltipHeight, queryClient, setView, showToast])
 
   useEffect(() => {
     setProblemStatementData(

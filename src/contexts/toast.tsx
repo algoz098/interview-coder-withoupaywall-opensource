@@ -6,10 +6,12 @@ interface ToastContextType {
   showToast: (title: string, description: string, variant: ToastVariant) => void
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ToastContext = createContext<ToastContextType | undefined>(
   undefined
 )
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useToast() {
   const context = useContext(ToastContext)
   if (!context) {

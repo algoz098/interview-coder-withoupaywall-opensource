@@ -170,7 +170,7 @@ const Debug: React.FC<DebugProps> = ({
             const lines = data.debug_analysis.split('\n');
             const bulletPoints = lines.filter(line => 
               line.trim().match(/^[\d*\-•]+\s/) || 
-              line.trim().match(/^[A-Z][\d\.\)\:]/) ||
+              line.trim().match(/^[A-Z][\d.):]/) ||
               line.includes(':') && line.length < 100
             );
             
@@ -233,7 +233,7 @@ const Debug: React.FC<DebugProps> = ({
       resizeObserver.disconnect()
       cleanupFunctions.forEach((cleanup) => cleanup())
     }
-  }, [queryClient, setIsProcessing])
+  }, [queryClient, setIsProcessing, refetch, showToast, tooltipHeight, tooltipVisible])
 
   const handleTooltipVisibilityChange = (visible: boolean, height: number) => {
     setTooltipVisible(visible)
@@ -334,7 +334,7 @@ const Debug: React.FC<DebugProps> = ({
                   {(() => {
                     // First identify key sections based on common patterns in the debug output
                     const sections = [];
-                    let currentSection = { title: '', content: [] };
+                    const currentSection = { title: '', content: [] };
                     
                     // Split by possible section headers (### or ##)
                     const mainSections = debugAnalysis.split(/(?=^#{1,3}\s|^\*\*\*|^\s*[A-Z][\w\s]+\s*$)/m);
@@ -403,12 +403,12 @@ const Debug: React.FC<DebugProps> = ({
                             }
                             
                             // Handle bullet points
-                            if (line.trim().match(/^[\-*•]\s/) || line.trim().match(/^\d+\.\s/)) {
+                            if (line.trim().match(/^[-*•]\s/) || line.trim().match(/^\d+\.\s/)) {
                               return (
                                 <div key={lineIndex} className="flex items-start gap-2 my-1.5">
                                   <div className="w-1.5 h-1.5 rounded-full bg-blue-400/80 mt-2 shrink-0" />
                                   <div className="flex-1">
-                                    {line.replace(/^[\-*•]\s|^\d+\.\s/, '')}
+                                    {line.replace(/^[-*•]\s|^\d+\.\s/, '')}
                                   </div>
                                 </div>
                               );
