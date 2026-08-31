@@ -1,21 +1,32 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-// We will test configuration methods by injecting/replacing fs behavior using vitest spies
-// Since there's a global configHelper instance created on import, we should mock fs beforehand
-vi.mock('node:fs', () => {
-  let store: Record<string, string> = {
+// We must use `vi.hoisted` to share state inside vi.mock when it executes during import hoisting
+const { storeState, resetStore } = vi.hoisted(() => {
+  const initialState = {
     '/mock/path/config.json': JSON.stringify({ language: 'python', apiKey: 'sk-12345678901234567890123456789012', opacity: 1.0 })
   };
+
+  let store: Record<string, string> = { ...initialState };
+
+  return {
+    storeState: () => store,
+    resetStore: () => {
+      store = { ...initialState };
+    }
+  }
+});
+
+vi.mock('node:fs', () => {
   return {
     default: {
-      existsSync: vi.fn((path) => path in store),
-      readFileSync: vi.fn((path) => store[path as string]),
-      writeFileSync: vi.fn((path, data) => { store[path as string] = data }),
+      existsSync: vi.fn((path) => path in storeState()),
+      readFileSync: vi.fn((path) => storeState()[path as string]),
+      writeFileSync: vi.fn((path, data) => { storeState()[path as string] = data }),
       mkdirSync: vi.fn()
     },
-    existsSync: vi.fn((path) => path in store),
-    readFileSync: vi.fn((path) => store[path as string]),
-    writeFileSync: vi.fn((path, data) => { store[path as string] = data }),
+    existsSync: vi.fn((path) => path in storeState()),
+    readFileSync: vi.fn((path) => storeState()[path as string]),
+    writeFileSync: vi.fn((path, data) => { storeState()[path as string] = data }),
     mkdirSync: vi.fn()
   }
 })
@@ -63,6 +74,7 @@ describe('ConfigHelper', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    resetStore(); // Fix: reset the store to pristine state before every test
     configHelper = new ConfigHelper();
   })
 
@@ -91,9 +103,8 @@ describe('ConfigHelper', () => {
   })
 
   it('should get current language', () => {
-    // Note: since the file mocked above shares its mock store, earlier tests update it!
-    // For this test, it should be javascript if run after the update
+    // With state reset, this should now deterministically return 'python'
     const lang = configHelper.getLanguage();
-    expect(['python', 'javascript']).toContain(lang);
+    expect(lang).toBe('python');
   })
 })
