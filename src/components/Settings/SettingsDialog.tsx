@@ -38,13 +38,23 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to analyze screenshots and extract problem details',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model with vision support"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Best overall performance for problem extraction"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
@@ -53,6 +63,11 @@ const modelCategories: ModelCategory[] = [
         id: "gemini-1.5-pro",
         name: "Gemini 1.5 Pro",
         description: "Best overall performance for problem extraction"
+      },
+      {
+        id: "gemini-2.0-pro-exp-0205",
+        name: "Gemini 2.0 Pro Experimental",
+        description: "Experimental 2.0 Pro model"
       },
       {
         id: "gemini-2.0-flash",
@@ -70,6 +85,11 @@ const modelCategories: ModelCategory[] = [
         id: "claude-3-5-sonnet-20241022",
         name: "Claude 3.5 Sonnet",
         description: "Balanced performance and speed"
+      },
+      {
+        id: "claude-3-5-haiku-20241022",
+        name: "Claude 3.5 Haiku",
+        description: "Fastest Claude model"
       },
       {
         id: "claude-3-opus-20240229",
@@ -84,13 +104,28 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to generate coding solutions',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model"
+      },
+      {
+        id: "o3-mini",
+        name: "o3-mini",
+        description: "Fast and capable reasoning model"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Strong overall performance for coding tasks"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
@@ -99,6 +134,11 @@ const modelCategories: ModelCategory[] = [
         id: "gemini-1.5-pro",
         name: "Gemini 1.5 Pro",
         description: "Strong overall performance for coding tasks"
+      },
+      {
+        id: "gemini-2.0-pro-exp-0205",
+        name: "Gemini 2.0 Pro Experimental",
+        description: "Experimental 2.0 Pro model"
       },
       {
         id: "gemini-2.0-flash",
@@ -116,6 +156,11 @@ const modelCategories: ModelCategory[] = [
         id: "claude-3-5-sonnet-20241022",
         name: "Claude 3.5 Sonnet",
         description: "Balanced performance and speed"
+      },
+      {
+        id: "claude-3-5-haiku-20241022",
+        name: "Claude 3.5 Haiku",
+        description: "Fastest Claude model"
       },
       {
         id: "claude-3-opus-20240229",
@@ -130,13 +175,23 @@ const modelCategories: ModelCategory[] = [
     description: 'Model used to debug and improve solutions',
     openaiModels: [
       {
+        id: "gpt-4.5-preview",
+        name: "GPT-4.5 Preview",
+        description: "Latest and most capable OpenAI model"
+      },
+      {
+        id: "o1",
+        name: "o1",
+        description: "OpenAI's reasoning model with vision support"
+      },
+      {
         id: "gpt-4o",
-        name: "gpt-4o",
+        name: "GPT-4o",
         description: "Best for analyzing code and error messages"
       },
       {
         id: "gpt-4o-mini",
-        name: "gpt-4o-mini",
+        name: "GPT-4o-mini",
         description: "Faster, more cost-effective option"
       }
     ],
@@ -145,6 +200,11 @@ const modelCategories: ModelCategory[] = [
         id: "gemini-1.5-pro",
         name: "Gemini 1.5 Pro",
         description: "Best for analyzing code and error messages"
+      },
+      {
+        id: "gemini-2.0-pro-exp-0205",
+        name: "Gemini 2.0 Pro Experimental",
+        description: "Experimental 2.0 Pro model"
       },
       {
         id: "gemini-2.0-flash",
@@ -162,6 +222,11 @@ const modelCategories: ModelCategory[] = [
         id: "claude-3-5-sonnet-20241022",
         name: "Claude 3.5 Sonnet",
         description: "Balanced performance and speed"
+      },
+      {
+        id: "claude-3-5-haiku-20241022",
+        name: "Claude 3.5 Haiku",
+        description: "Fastest Claude model"
       },
       {
         id: "claude-3-opus-20240229",
@@ -244,9 +309,9 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
       setSolutionModel("gpt-4o");
       setDebuggingModel("gpt-4o");
     } else if (provider === "gemini") {
-      setExtractionModel("gemini-1.5-pro");
-      setSolutionModel("gemini-1.5-pro");
-      setDebuggingModel("gemini-1.5-pro");
+      setExtractionModel("gemini-2.0-flash");
+      setSolutionModel("gemini-2.0-flash");
+      setDebuggingModel("gemini-2.0-flash");
     } else if (provider === "anthropic") {
       setExtractionModel("claude-3-7-sonnet-20250219");
       setSolutionModel("claude-3-7-sonnet-20250219");
