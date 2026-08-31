@@ -13,8 +13,8 @@ export class ShortcutsHelper {
     const mainWindow = this.deps.getMainWindow();
     if (!mainWindow) return;
     
-    let currentOpacity = mainWindow.getOpacity();
-    let newOpacity = Math.max(0.1, Math.min(1.0, currentOpacity + delta));
+    const currentOpacity = mainWindow.getOpacity();
+    const newOpacity = Math.max(0.1, Math.min(1.0, currentOpacity + delta));
     console.log(`Adjusting opacity from ${currentOpacity} to ${newOpacity}`);
     
     mainWindow.setOpacity(newOpacity);
