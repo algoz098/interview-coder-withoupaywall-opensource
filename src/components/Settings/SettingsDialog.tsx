@@ -60,24 +60,19 @@ const modelCategories: ModelCategory[] = [
     ],
     geminiModels: [
       {
-        id: "gemini-3.5-flash",
-        name: "Gemini 3.5 Flash",
-        description: "Best overall performance for problem extraction"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Advanced intelligence and problem-solving skills"
       },
       {
-        id: "gemini-3.1-flash-lite",
-        name: "Gemini 3.1 Flash-Lite",
-        description: "Faster, more cost-effective option"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for problem extraction"
       },
       {
-        id: "gemini-2.5-pro",
-        name: "Gemini 2.5 Pro",
-        description: "Strong performance for problem extraction"
-      },
-      {
-        id: "gemini-2.5-flash",
-        name: "Gemini 2.5 Flash",
-        description: "Fast and capable model"
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Fast, cost-sensitive workhorse model"
       }
     ],
     anthropicModels: [
@@ -136,24 +131,19 @@ const modelCategories: ModelCategory[] = [
     ],
     geminiModels: [
       {
-        id: "gemini-3.5-flash",
-        name: "Gemini 3.5 Flash",
-        description: "Strong overall performance for coding tasks"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Powerful agentic and vibe coding capabilities"
       },
       {
-        id: "gemini-3.1-flash-lite",
-        name: "Gemini 3.1 Flash-Lite",
-        description: "Faster, more cost-effective option for coding"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for generating solutions"
       },
       {
-        id: "gemini-2.5-pro",
-        name: "Gemini 2.5 Pro",
-        description: "Solid performance for generating solutions"
-      },
-      {
-        id: "gemini-2.5-flash",
-        name: "Gemini 2.5 Flash",
-        description: "Fast and capable model"
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Cost-sensitive workhorse model for coding"
       }
     ],
     anthropicModels: [
@@ -207,24 +197,19 @@ const modelCategories: ModelCategory[] = [
     ],
     geminiModels: [
       {
-        id: "gemini-3.5-flash",
-        name: "Gemini 3.5 Flash",
-        description: "Best for analyzing code and error messages"
+        id: "gemini-3.1-pro-preview",
+        name: "Gemini 3.1 Pro",
+        description: "Advanced intelligence for complex debugging"
       },
       {
-        id: "gemini-3.1-flash-lite",
-        name: "Gemini 3.1 Flash-Lite",
-        description: "Faster, more cost-effective option for debugging"
+        id: "gemini-3.7-flash",
+        name: "Gemini 3.7 Flash",
+        description: "Frontier-class performance for analyzing code"
       },
       {
-        id: "gemini-2.5-pro",
-        name: "Gemini 2.5 Pro",
-        description: "Strong performance for debugging"
-      },
-      {
-        id: "gemini-2.5-flash",
-        name: "Gemini 2.5 Flash",
-        description: "Fast and capable model"
+        id: "gemini-3.5-flash-lite",
+        name: "Gemini 3.5 Flash-Lite",
+        description: "Cost-sensitive workhorse model for debugging"
       }
     ],
     anthropicModels: [
@@ -324,9 +309,9 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
       setSolutionModel("gpt-4o");
       setDebuggingModel("gpt-4o");
     } else if (provider === "gemini") {
-      setExtractionModel("gemini-3.5-flash");
-      setSolutionModel("gemini-3.5-flash");
-      setDebuggingModel("gemini-3.5-flash");
+      setExtractionModel("gemini-3.7-flash");
+      setSolutionModel("gemini-3.7-flash");
+      setDebuggingModel("gemini-3.7-flash");
     } else if (provider === "anthropic") {
       setExtractionModel("claude-sonnet-5");
       setSolutionModel("claude-sonnet-5");
@@ -442,7 +427,7 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
                   />
                   <div className="flex flex-col">
                     <p className="font-medium text-white text-sm">Gemini</p>
-                    <p className="text-xs text-white/60">Gemini 3.5 models</p>
+                    <p className="text-xs text-white/60">Gemini 3 models</p>
                   </div>
                 </div>
               </div>
