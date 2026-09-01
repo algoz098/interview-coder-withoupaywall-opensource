@@ -206,6 +206,8 @@ const electronAPI = {
   getConfig: () => ipcRenderer.invoke("get-config"),
   updateConfig: (config: { apiKey?: string; model?: string; language?: string; opacity?: number }) => 
     ipcRenderer.invoke("update-config", config),
+  getModels: (provider: string, apiKey: string) =>
+    ipcRenderer.invoke("get-models", provider, apiKey),
   onShowSettings: (callback: () => void) => {
     const subscription = () => callback()
     ipcRenderer.on("show-settings-dialog", subscription)

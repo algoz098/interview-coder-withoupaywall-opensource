@@ -17,6 +17,10 @@ export function initializeIpcHandlers(deps: IIpcHandlerDeps): void {
     return configHelper.updateConfig(updates);
   })
 
+  ipcMain.handle("get-models", async (_event, provider: "openai" | "gemini" | "anthropic", apiKey: string) => {
+    return configHelper.getAvailableModels(provider, apiKey);
+  })
+
   ipcMain.handle("check-api-key", () => {
     return configHelper.hasApiKey();
   })

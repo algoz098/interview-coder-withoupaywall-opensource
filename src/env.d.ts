@@ -59,6 +59,7 @@ interface ElectronAPI {
   installUpdate: () => void
   onUpdateAvailable: (callback: (info: any) => void) => () => void
   onUpdateDownloaded: (callback: (info: any) => void) => () => void
+  getModels?: (provider: string, apiKey: string) => Promise<Array<{ id: string; name: string; description: string; supportsVision: boolean }>>
 }
 
 interface Window {
