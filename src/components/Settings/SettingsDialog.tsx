@@ -21,219 +21,38 @@ type AIModel = {
   description: string;
 };
 
+export interface DiscoveredModel {
+  id: string;
+  name: string;
+  description: string;
+  supportsVision: boolean;
+}
+
 type ModelCategory = {
   key: 'extractionModel' | 'solutionModel' | 'debuggingModel';
   title: string;
   description: string;
-  openaiModels: AIModel[];
-  geminiModels: AIModel[];
-  anthropicModels: AIModel[];
+  requiresVision: boolean;
 };
 
-// Define available models for each category
 const modelCategories: ModelCategory[] = [
   {
     key: 'extractionModel',
     title: 'Problem Extraction',
-    description: 'Model used to analyze screenshots and extract problem details',
-    openaiModels: [
-      {
-        id: "gpt-4.5-preview",
-        name: "GPT-4.5 Preview",
-        description: "Latest and most capable OpenAI model"
-      },
-      {
-        id: "o1",
-        name: "o1",
-        description: "OpenAI's reasoning model with vision support"
-      },
-      {
-        id: "gpt-4o",
-        name: "GPT-4o",
-        description: "Best overall performance for problem extraction"
-      },
-      {
-        id: "gpt-4o-mini",
-        name: "GPT-4o-mini",
-        description: "Faster, more cost-effective option"
-      }
-    ],
-    geminiModels: [
-      {
-        id: "gemini-3.1-pro-preview",
-        name: "Gemini 3.1 Pro",
-        description: "Advanced intelligence and problem-solving skills"
-      },
-      {
-        id: "gemini-3.7-flash",
-        name: "Gemini 3.7 Flash",
-        description: "Frontier-class performance for problem extraction"
-      },
-      {
-        id: "gemini-3.5-flash-lite",
-        name: "Gemini 3.5 Flash-Lite",
-        description: "Fast, cost-sensitive workhorse model"
-      }
-    ],
-    anthropicModels: [
-      {
-        id: "claude-fable-5",
-        name: "Claude 5 Fable",
-        description: "Highest available capability for problem extraction"
-      },
-      {
-        id: "claude-opus-5",
-        name: "Claude 5 Opus",
-        description: "Top-level intelligence and complex analysis"
-      },
-      {
-        id: "claude-sonnet-5",
-        name: "Claude 5 Sonnet",
-        description: "Best combination of speed and intelligence"
-      },
-      {
-        id: "claude-haiku-4-5-20251001",
-        name: "Claude 4.5 Haiku",
-        description: "Fastest model with near-frontier intelligence"
-      }
-    ]
+    description: 'Model used to analyze screenshots and extract problem details (Requires Vision)',
+    requiresVision: true,
   },
   {
     key: 'solutionModel',
     title: 'Solution Generation',
-    description: 'Model used to generate coding solutions',
-    openaiModels: [
-      {
-        id: "gpt-4.5-preview",
-        name: "GPT-4.5 Preview",
-        description: "Latest and most capable OpenAI model"
-      },
-      {
-        id: "o1",
-        name: "o1",
-        description: "OpenAI's reasoning model"
-      },
-      {
-        id: "o3-mini",
-        name: "o3-mini",
-        description: "Fast and capable reasoning model"
-      },
-      {
-        id: "gpt-4o",
-        name: "GPT-4o",
-        description: "Strong overall performance for coding tasks"
-      },
-      {
-        id: "gpt-4o-mini",
-        name: "GPT-4o-mini",
-        description: "Faster, more cost-effective option"
-      }
-    ],
-    geminiModels: [
-      {
-        id: "gemini-3.1-pro-preview",
-        name: "Gemini 3.1 Pro",
-        description: "Powerful agentic and vibe coding capabilities"
-      },
-      {
-        id: "gemini-3.7-flash",
-        name: "Gemini 3.7 Flash",
-        description: "Frontier-class performance for generating solutions"
-      },
-      {
-        id: "gemini-3.5-flash-lite",
-        name: "Gemini 3.5 Flash-Lite",
-        description: "Cost-sensitive workhorse model for coding"
-      }
-    ],
-    anthropicModels: [
-      {
-        id: "claude-fable-5",
-        name: "Claude 5 Fable",
-        description: "Highest available capability for generating solutions"
-      },
-      {
-        id: "claude-opus-5",
-        name: "Claude 5 Opus",
-        description: "Best for complex agentic coding and enterprise work"
-      },
-      {
-        id: "claude-sonnet-5",
-        name: "Claude 5 Sonnet",
-        description: "Best combination of speed and intelligence for coding"
-      },
-      {
-        id: "claude-haiku-4-5-20251001",
-        name: "Claude 4.5 Haiku",
-        description: "Fastest model for coding tasks"
-      }
-    ]
+    description: 'Model used to generate the final code solution',
+    requiresVision: false,
   },
   {
     key: 'debuggingModel',
-    title: 'Debugging',
-    description: 'Model used to debug and improve solutions',
-    openaiModels: [
-      {
-        id: "gpt-4.5-preview",
-        name: "GPT-4.5 Preview",
-        description: "Latest and most capable OpenAI model"
-      },
-      {
-        id: "o1",
-        name: "o1",
-        description: "OpenAI's reasoning model with vision support"
-      },
-      {
-        id: "gpt-4o",
-        name: "GPT-4o",
-        description: "Best for analyzing code and error messages"
-      },
-      {
-        id: "gpt-4o-mini",
-        name: "GPT-4o-mini",
-        description: "Faster, more cost-effective option"
-      }
-    ],
-    geminiModels: [
-      {
-        id: "gemini-3.1-pro-preview",
-        name: "Gemini 3.1 Pro",
-        description: "Advanced intelligence for complex debugging"
-      },
-      {
-        id: "gemini-3.7-flash",
-        name: "Gemini 3.7 Flash",
-        description: "Frontier-class performance for analyzing code"
-      },
-      {
-        id: "gemini-3.5-flash-lite",
-        name: "Gemini 3.5 Flash-Lite",
-        description: "Cost-sensitive workhorse model for debugging"
-      }
-    ],
-    anthropicModels: [
-      {
-        id: "claude-fable-5",
-        name: "Claude 5 Fable",
-        description: "Highest available capability for debugging"
-      },
-      {
-        id: "claude-opus-5",
-        name: "Claude 5 Opus",
-        description: "Top-level intelligence for complex debugging"
-      },
-      {
-        id: "claude-sonnet-5",
-        name: "Claude 5 Sonnet",
-        description: "Best for analyzing code and error messages"
-      },
-      {
-        id: "claude-haiku-4-5-20251001",
-        name: "Claude 4.5 Haiku",
-        description: "Fastest model for debugging"
-      }
-    ]
+    title: 'Debugging Assistant',
+    description: 'Model used to analyze errors and suggest fixes (Requires Vision)',
+    requiresVision: true,
   }
 ];
 
@@ -250,6 +69,8 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
   const [solutionModel, setSolutionModel] = useState("gpt-4o");
   const [debuggingModel, setDebuggingModel] = useState("gpt-4o");
   const [isLoading, setIsLoading] = useState(false);
+  const [availableModels, setAvailableModels] = useState<DiscoveredModel[]>([]);
+  const [isFetchingModels, setIsFetchingModels] = useState(false);
   const { showToast } = useToast();
 
   // Sync with external open state
@@ -268,6 +89,34 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
     }
   };
   
+  // Fetch models whenever provider or API key changes
+  useEffect(() => {
+    let isMounted = true;
+    const fetchModels = async () => {
+      if (!apiKey || !window.electronAPI.getModels) return;
+
+      setIsFetchingModels(true);
+      try {
+        const models = await window.electronAPI.getModels(apiProvider, apiKey);
+        if (isMounted) {
+          setAvailableModels(models);
+        }
+      } catch (error) {
+        console.error("Failed to fetch models", error);
+      } finally {
+        if (isMounted) {
+          setIsFetchingModels(false);
+        }
+      }
+    };
+
+    fetchModels();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [apiProvider, apiKey]);
+
   // Load current config on dialog open
   useEffect(() => {
     if (open) {
@@ -571,13 +420,27 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
               Select which models to use for each stage of the process
             </p>
             
-            {modelCategories.map((category) => {
-              // Get the appropriate model list based on selected provider
-              const models = 
-                apiProvider === "openai" ? category.openaiModels : 
-                apiProvider === "gemini" ? category.geminiModels :
-                category.anthropicModels;
+            {isFetchingModels ? (
+              <div className="text-xs text-white/60 p-4 bg-white/5 rounded-lg border border-white/10 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Fetching available models...
+              </div>
+            ) : availableModels.length === 0 && apiKey ? (
+              <div className="text-xs text-white/60 p-4 bg-red-500/10 rounded-lg border border-red-500/20 text-red-400">
+                Failed to fetch models or invalid API key.
+              </div>
+            ) : !apiKey ? (
+              <div className="text-xs text-white/60 p-4 bg-white/5 rounded-lg border border-white/10">
+                Please enter your API key to see available models.
+              </div>
+            ) : modelCategories.map((category) => {
+              // Get the appropriate model list based on vision requirement
+              const models = category.requiresVision
+                ? availableModels.filter(m => m.supportsVision)
+                : availableModels;
               
+              if (models.length === 0) return null;
+
               return (
                 <div key={category.key} className="mb-4">
                   <label className="text-sm font-medium text-white mb-1 block">
@@ -585,7 +448,7 @@ export function SettingsDialog({ open: externalOpen, onOpenChange }: SettingsDia
                   </label>
                   <p className="text-xs text-white/60 mb-2">{category.description}</p>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
                     {models.map((m) => {
                       // Determine which state to use based on category key
                       const currentValue = 

@@ -4,6 +4,15 @@ import path from "node:path"
 import { app } from "electron"
 import { EventEmitter } from "events"
 import { OpenAI } from "openai"
+import { store } from "./store"
+import Anthropic from "@anthropic-ai/sdk"
+
+export interface ModelInfo {
+  id: string;
+  name: string;
+  description: string;
+  supportsVision: boolean;
+}
 
 interface Config {
   apiKey: string;
@@ -285,6 +294,144 @@ export class ConfigHelper extends EventEmitter {
     this.updateConfig({ language });
   }
   
+  /**
+   * Get available models for a provider, using cache if available
+   */
+  public async getAvailableModels(provider: "openai" | "gemini" | "anthropic", apiKey: string): Promise<ModelInfo[]> {
+    if (!apiKey) {
+      return [];
+    }
+
+    // Check cache
+    const cache: any = store.get("modelsCache") || {};
+    const providerCache = cache[provider];
+
+    // Cache valid for 7 days
+    if (providerCache && (Date.now() - providerCache.timestamp) < 7 * 24 * 60 * 60 * 1000) {
+      console.log(`Using cached models for ${provider}`);
+      return providerCache.models;
+    }
+
+    let models: ModelInfo[] = [];
+
+    try {
+      if (provider === "openai") {
+        const client = new OpenAI({ apiKey });
+        const response = await client.models.list();
+
+        // Filter out non-chat models (like tts, dall-e, etc)
+        const chatModels = response.data.filter(m =>
+          m.id.startsWith("gpt-") || m.id.startsWith("o1") || m.id.startsWith("o3") || m.id.startsWith("chatgpt-")
+        );
+
+        models = chatModels.map(m => {
+          // Determine vision support based on model name
+          const supportsVision =
+            m.id.includes("-vision") ||
+            m.id.includes("gpt-4o") ||
+            m.id.startsWith("o1") ||
+            m.id === "gpt-4-turbo" ||
+            m.id === "gpt-4.5-preview";
+
+          return {
+            id: m.id,
+            name: m.id,
+            description: `OpenAI ${m.id} model`,
+            supportsVision
+          };
+        }).sort((a, b) => b.id.localeCompare(a.id));
+
+      } else if (provider === "gemini") {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch Gemini models: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Filter for models that support generateContent
+        const genModels = data.models.filter((m: any) =>
+          m.supportedGenerationMethods &&
+          m.supportedGenerationMethods.includes("generateContent") &&
+          !m.name.includes("embedding") &&
+          !m.name.includes("tts")
+        );
+
+        models = genModels.map((m: any) => {
+          const id = m.name.replace("models/", "");
+
+          // Gemini 1.5+ generally supports vision
+          const supportsVision =
+            id.includes("gemini-1.5") ||
+            id.includes("gemini-2.0") ||
+            id.includes("gemini-3.") ||
+            id.includes("pro-vision");
+
+          return {
+            id: id,
+            name: m.displayName || id,
+            description: m.description || `Gemini ${id} model`,
+            supportsVision
+          };
+        }).sort((a: any, b: any) => b.id.localeCompare(a.id));
+
+      } else if (provider === "anthropic") {
+        // Fallback for Anthropic as they don't have a stable API for user keys discovery with capabilities
+        // We return a predefined list of well-known Claude models
+        models = [
+          {
+            id: "claude-3-7-sonnet-20250219",
+            name: "Claude 3.7 Sonnet",
+            description: "Latest Anthropic model, best balance of intelligence and speed",
+            supportsVision: true
+          },
+          {
+            id: "claude-3-5-sonnet-20241022",
+            name: "Claude 3.5 Sonnet",
+            description: "High intelligence and speed",
+            supportsVision: true
+          },
+          {
+            id: "claude-3-5-haiku-20241022",
+            name: "Claude 3.5 Haiku",
+            description: "Fastest and most cost-effective",
+            supportsVision: false // The 3.5 Haiku currently doesn't support vision
+          },
+          {
+            id: "claude-3-opus-20240229",
+            name: "Claude 3 Opus",
+            description: "Powerful model for complex tasks",
+            supportsVision: true
+          },
+          {
+            id: "claude-3-haiku-20240307",
+            name: "Claude 3 Haiku (Vision)",
+            description: "Fastest vision-capable model",
+            supportsVision: true
+          }
+        ];
+      }
+
+      // Save to cache
+      const updatedCache: any = store.get("modelsCache") || {};
+      updatedCache[provider] = {
+        timestamp: Date.now(),
+        models
+      };
+      store.set("modelsCache", updatedCache);
+
+      return models;
+    } catch (error) {
+      console.error(`Error fetching models for ${provider}:`, error);
+      // Return cached models if available, even if expired, as fallback
+      if (providerCache) {
+        console.log(`Returning expired cached models for ${provider} as fallback`);
+        return providerCache.models;
+      }
+      return [];
+    }
+  }
+
   /**
    * Test API key with the selected provider
    */

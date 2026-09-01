@@ -1,10 +1,23 @@
 import Store from "electron-store"
 
+interface ModelCacheItem {
+  id: string;
+  name: string;
+  description: string;
+  supportsVision: boolean;
+}
+
 interface StoreSchema {
-  // Empty for now, we can add other store items here later
+  modelsCache?: {
+    [provider: string]: {
+      timestamp: number;
+      models: ModelCacheItem[];
+    }
+  }
 }
 
 const store = new Store<StoreSchema>({
+  name: "interview-coder-config",
   defaults: {},
   encryptionKey: "your-encryption-key"
 }) as Store<StoreSchema> & {

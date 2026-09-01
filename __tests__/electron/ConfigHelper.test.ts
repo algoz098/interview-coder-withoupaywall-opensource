@@ -16,6 +16,17 @@ const { storeState, resetStore } = vi.hoisted(() => {
   }
 });
 
+
+vi.mock('electron-store', () => {
+  return {
+    default: class MockStore {
+      store: any = {};
+      get(key: string) { return this.store[key]; }
+      set(key: string, value: any) { this.store[key] = value; }
+    }
+  }
+});
+
 vi.mock('node:fs', () => {
   return {
     default: {
@@ -36,11 +47,14 @@ vi.mock('fs', async () => {
   return actual;
 })
 
+
 vi.mock('electron', () => ({
   app: {
     getPath: vi.fn().mockReturnValue('/mock/path'),
-    isPackaged: true
+    isPackaged: true,
+    name: 'interview-coder-v1'
   },
+
   dialog: {
     showMessageBox: vi.fn().mockResolvedValue({ response: 0 })
   },
